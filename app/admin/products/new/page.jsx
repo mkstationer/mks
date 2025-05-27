@@ -45,6 +45,7 @@ export default function NewProductPage() {
       files.forEach((file) => {
         const reader = new FileReader()
         reader.onload = () => {
+          console.log("Preview created:", reader.result) // This will show the data URL
           setImagePreviews((prev) => [...prev, reader.result])
         }
         reader.readAsDataURL(file)
@@ -125,6 +126,7 @@ export default function NewProductPage() {
       </div>
     )
   }
+  console.log("imagePreviews",imagePreviews)
 
   return (
     <div className="flex min-h-screen flex-col bg-gray-50">
@@ -320,6 +322,10 @@ export default function NewProductPage() {
                                       src={preview || "/placeholder.svg"}
                                       alt={`Preview ${index + 1}`}
                                       className="h-full w-full object-cover"
+                                      onError={(e) => {
+                                        console.error("Image failed to load:", preview)
+                                        e.target.src = "/placeholder.svg"
+                                      }}
                                     />
                                     <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-200" />
                                   </div>

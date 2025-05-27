@@ -308,7 +308,7 @@ export default function AdminProductsPage() {
                             </span>
                           </td>
                           <td className="px-6 py-4 text-right text-sm font-semibold text-black">
-                            ${product.price.toFixed(2)}
+                            {product.price.toFixed(2)}
                           </td>
                           <td className="px-6 py-4 text-right">
                             <span
@@ -393,7 +393,7 @@ export default function AdminProductsPage() {
                                 </span>
                               </div>
                               <div className="flex items-center justify-between">
-                                <span className="text-lg font-bold text-black">${product.price.toFixed(2)}</span>
+                                <span className="text-lg font-bold text-black"> Rs{product.price.toFixed(2)}</span>
                                 <span className="text-sm text-gray-500">
                                   {new Date(product.created_at).toLocaleDateString()}
                                 </span>

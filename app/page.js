@@ -1,161 +1,168 @@
-"use client";
+"use client"
 
-import { useState, useEffect } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { ArrowRight, Search, ShoppingBag, MessageCircle } from "lucide-react";
-import { supabase } from "@/lib/supabaseClient";
-import { useCart } from "@/context/cart-context";
-import { useToast } from "@/components/ui/use-toast";
-import Navbar from "@/components/navbar";
-import Footer from "@/components/footer";
+import { useState, useEffect, useMemo, useCallback } from "react"
+import Image from "next/image"
+import Link from "next/link"
+import { ArrowRight, Search, ShoppingBag } from "lucide-react"
+import { supabase } from "@/lib/supabaseClient"
+import { useCart } from "@/context/cart-context"
+import { useToast } from "@/components/ui/use-toast"
+import Navbar from "@/components/navbar"
+import Footer from "@/components/footer"
 
 export default function Home() {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [activeCategory, setActiveCategory] = useState("All");
-  const { addToCart } = useCart();
-  const { toast } = useToast();
+  const [products, setProducts] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [activeCategory, setActiveCategory] = useState("All")
+  const { addToCart } = useCart()
+  const { toast } = useToast()
 
-  const [categories, setCategories] = useState([]);
-  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [categories, setCategories] = useState([])
+  const [categoryHierarchy, setCategoryHierarchy] = useState({}) // Cache for category descendants
+
+  // Pre-calculate all category descendants for instant filtering
+  const categoriesWithCounts = useMemo(() => {
+    if (categories.length === 0 || products.length === 0) return []
+
+    const categoriesWithCounts = categories.map((category) => {
+      if (category.label === "All") {
+        return { ...category, productCount: products.length }
+      }
+
+      // Use cached hierarchy for instant lookup
+      const categoryIds = categoryHierarchy[category.id] || [category.id]
+      const count = products.filter((product) => categoryIds.includes(product.category_id)).length
+
+      return { ...category, productCount: count }
+    })
+
+    // Only show categories that have products
+    return categoriesWithCounts.filter((cat) => cat.productCount > 0)
+  }, [categories, products, categoryHierarchy])
+
+  // Instant product filtering using cached hierarchy
+  const filteredProducts = useMemo(() => {
+    if (activeCategory === "All") {
+      return products.slice(0, 12)
+    }
+
+    const selectedCat = categories.find((cat) => cat.label === activeCategory)
+    if (!selectedCat || !selectedCat.id) {
+      return products.slice(0, 12)
+    }
+
+    // Use cached hierarchy for instant filtering
+    const categoryIds = categoryHierarchy[selectedCat.id] || [selectedCat.id]
+    const filtered = products.filter((product) => categoryIds.includes(product.category_id))
+
+    return filtered.slice(0, 12)
+  }, [activeCategory, categories, products, categoryHierarchy])
 
   useEffect(() => {
-    fetchCategories();
-    fetchProducts();
-  }, []);
-
-  useEffect(() => {
-    filterProductsByCategory();
-  }, [activeCategory, products]);
+    fetchCategories()
+    fetchProducts()
+  }, [])
 
   const fetchCategories = async () => {
     try {
+      // Fetch ALL active categories
       const { data, error } = await supabase
         .from("categories")
         .select("*")
         .eq("is_active", true)
-        .eq("level", 0) // Only main categories for home page
-        .order("sort_order");
+        .order("level, sort_order")
 
-      if (error) throw error;
+      if (error) throw error
 
       const formattedCategories = [
-        { id: null, label: "All" },
-        ...data.map((cat) => ({ id: cat.id, label: cat.name })),
-      ];
+        { id: null, label: "All", level: -1 },
+        ...data.map((cat) => ({ id: cat.id, label: cat.name, level: cat.level, parent_id: cat.parent_id })),
+      ]
 
-      setCategories(formattedCategories);
+      setCategories(formattedCategories)
+
+      // Pre-calculate category hierarchy for instant filtering
+      buildCategoryHierarchy(data)
     } catch (error) {
-      console.error("Error fetching categories:", error);
+      console.error("Error fetching categories:", error)
     }
-  };
+  }
 
   const fetchProducts = async () => {
-    setLoading(true);
+    setLoading(true)
     try {
       const { data, error } = await supabase.from("products").select(`
           *,
           categories!products_category_id_fkey(name, slug)
-        `);
-      if (error) throw error;
+        `)
+      if (error) throw error
 
-      setProducts(data || []);
+      setProducts(data || [])
     } catch (error) {
-      console.error("Error fetching products:", error);
+      console.error("Error fetching products:", error)
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
-  const getAllDescendantCategoryIds = async (categoryId) => {
-    if (!categoryId) return [];
+  // Build category hierarchy cache once for instant lookups
+  const buildCategoryHierarchy = (categoriesData) => {
+    const hierarchy = {}
 
+    // Helper function to get all descendants
+    const getDescendants = (categoryId, allCategories) => {
+      const descendants = [categoryId]
+      const children = allCategories.filter((cat) => cat.parent_id === categoryId)
+
+      children.forEach((child) => {
+        descendants.push(...getDescendants(child.id, allCategories))
+      })
+
+      return descendants
+    }
+
+    // Pre-calculate descendants for all categories
+    categoriesData.forEach((category) => {
+      hierarchy[category.id] = getDescendants(category.id, categoriesData)
+    })
+
+    setCategoryHierarchy(hierarchy)
+  }
+
+  const handleAddToCart = useCallback(
+    (product) => {
+      // Get the first image if it's an array, otherwise use the single image
+      const productImage = Array.isArray(product.image_url) ? product.image_url[0] : product.image_url
+
+      addToCart({
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        category: product.categories?.name || "Unknown",
+        image: productImage,
+        quantity: 1,
+      })
+
+      toast({
+        title: "Added to cart",
+        description: `${product.name} has been added to your cart.`,
+        duration: 3000,
+      })
+    },
+    [addToCart, toast],
+  )
+
+  const getProductImage = useCallback((product) => {
     try {
-      const descendants = [categoryId];
-
-      const getChildren = async (parentId) => {
-        const { data: children } = await supabase
-          .from("categories")
-          .select("id")
-          .eq("parent_id", parentId);
-
-        for (const child of children || []) {
-          descendants.push(child.id);
-          await getChildren(child.id); // Recursively get grandchildren
-        }
-      };
-
-      await getChildren(categoryId);
-      return descendants;
-    } catch (error) {
-      console.error("Error fetching descendant categories:", error);
-      return [categoryId];
-    }
-  };
-
-  const filterProductsByCategory = async () => {
-    if (activeCategory === "All") {
-      setFilteredProducts(products.slice(0, 8));
-      return;
-    }
-
-    // Find the selected category
-    const selectedCat = categories.find((cat) => cat.label === activeCategory);
-    if (!selectedCat || !selectedCat.id) {
-      setFilteredProducts(products.slice(0, 8));
-      return;
-    }
-
-    try {
-      // Get all descendant category IDs (including the main category itself)
-      const categoryIds = await getAllDescendantCategoryIds(selectedCat.id);
-
-      // Filter products that belong to any of these categories
-      const filtered = products.filter((product) =>
-        categoryIds.includes(product.category_id)
-      );
-
-      setFilteredProducts(filtered.slice(0, 8));
-    } catch (error) {
-      console.error("Error filtering products:", error);
-      setFilteredProducts([]);
-    }
-  };
-
-  const handleAddToCart = (product) => {
-    // Get the first image if it's an array, otherwise use the single image
-    const productImage = Array.isArray(product.image_url)
-      ? product.image_url[0]
-      : product.image_url;
-
-    addToCart({
-      id: product.id,
-      name: product.name,
-      price: product.price,
-      category: product.categories?.name || "Unknown",
-      image: productImage,
-      quantity: 1,
-    });
-
-    toast({
-      title: "Added to cart",
-      description: `${product.name} has been added to your cart.`,
-      duration: 3000,
-    });
-  };
-
-  const getProductImage = (product) => {
-    try {
-      const imageArray = JSON.parse(product.image_url);
+      const imageArray = JSON.parse(product.image_url)
       if (Array.isArray(imageArray) && imageArray.length > 0) {
-        return imageArray[0];
+        return imageArray[0]
       }
     } catch (error) {
-      console.error("Failed to parse image_url:", error);
+      console.error("Failed to parse image_url:", error)
     }
-    return "/placeholder.svg?height=200&width=200";
-  };
+    return "/placeholder.svg?height=200&width=200"
+  }, [])
 
   return (
     <div className="flex min-h-screen flex-col bg-white">
@@ -226,10 +233,7 @@ export default function Home() {
                   }}
                 />
               </div>
-              <Link
-                href="/products"
-                className="text-red-600 hover:text-red-700 font-semibold transition-colors"
-              >
+              <Link href="/products" className="text-red-600 hover:text-red-700 font-semibold transition-colors">
                 View all products →
               </Link>
             </div>
@@ -240,30 +244,34 @@ export default function Home() {
         <section className="py-12 lg:py-20 bg-white">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12 lg:mb-16">
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-black mb-4">
-                Our Products
-              </h2>
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-black mb-4">Our Products</h2>
               <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-                Discover our carefully curated selection of quality products
+                Discover our carefully curated selection of quality products across all categories
               </p>
             </div>
 
-            {/* Enhanced Category Tabs */}
             <div className="w-full mb-12">
               <div className="flex justify-center mb-12">
-                <div className="bg-gray-100 p-2 rounded-xl shadow-sm border border-gray-200 overflow-x-auto">
+                <div className="bg-gray-100 p-2 rounded-xl shadow-sm border border-gray-200 overflow-x-auto scrollbar-hide max-w-full">
                   <div className="flex space-x-1 min-w-max">
-                    {categories.map((category) => (
+                    {categoriesWithCounts.map((category) => (
                       <button
                         key={category.id || "all"}
-                        className={`px-4 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 whitespace-nowrap ${
+                        className={`px-3 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 whitespace-nowrap flex items-center gap-2 ${
                           activeCategory === category.label
                             ? "bg-red-600 text-white shadow-md transform scale-105"
                             : "text-black hover:bg-white hover:text-red-600 hover:shadow-sm"
                         }`}
                         onClick={() => setActiveCategory(category.label)}
                       >
-                        {category.label}
+                        <span>{category.label}</span>
+                        <span
+                          className={`text-xs px-2 py-1 rounded-full ${
+                            activeCategory === category.label ? "bg-white/20 text-white" : "bg-red-100 text-red-600"
+                          }`}
+                        >
+                          {category.productCount}
+                        </span>
                       </button>
                     ))}
                   </div>
@@ -274,16 +282,12 @@ export default function Home() {
               {loading ? (
                 <div className="text-center py-16">
                   <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-red-600 mx-auto"></div>
-                  <p className="mt-6 text-gray-600 font-medium">
-                    Loading products...
-                  </p>
+                  <p className="mt-6 text-gray-600 font-medium">Loading products...</p>
                 </div>
               ) : filteredProducts.length === 0 ? (
                 <div className="text-center py-16">
                   <div className="bg-gray-50 rounded-xl p-8 max-w-md mx-auto">
-                    <h3 className="text-xl font-semibold text-black mb-2">
-                      No products found
-                    </h3>
+                    <h3 className="text-xl font-semibold text-black mb-2">No products found</h3>
                     <p className="text-gray-600 mb-4">
                       {activeCategory !== "All"
                         ? "Try selecting a different category or check back later."
@@ -312,19 +316,15 @@ export default function Home() {
                           <h3 className="font-semibold text-lg text-black mb-1 line-clamp-2 group-hover:text-red-600 transition-colors">
                             {product.name}
                           </h3>
-                          <p className="text-sm text-gray-500 mb-3">
-                            {product.categories?.name || "Unknown"}
-                          </p>
+                          <p className="text-sm text-gray-500 mb-3">{product.categories?.name || "Unknown"}</p>
                           <div className="flex items-center justify-between">
-                            <p className="text-xl font-bold text-black">
-                              ${product.price.toFixed(2)}
-                            </p>
+                            <p className="text-xl font-bold text-black">Rs {product.price.toFixed(2)}</p>
                             <button
                               className="inline-flex items-center justify-center rounded-lg bg-red-600 hover:bg-red-700 text-white h-9 px-4 text-sm font-semibold transition-all duration-200 hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-600 focus-visible:ring-offset-2 shadow-md hover:shadow-lg"
                               onClick={(e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                handleAddToCart(product);
+                                e.preventDefault()
+                                e.stopPropagation()
+                                handleAddToCart(product)
                               }}
                             >
                               <ShoppingBag className="mr-1 h-4 w-4" />
@@ -354,12 +354,9 @@ export default function Home() {
         <section className="py-16 lg:py-24 bg-black text-white">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <div className="max-w-4xl mx-auto">
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6">
-                Ready to Shop?
-              </h2>
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6">Ready to Shop?</h2>
               <p className="text-lg lg:text-xl text-gray-300 mb-8 max-w-2xl mx-auto leading-relaxed">
-                Browse our wide selection of stationery, printing supplies, and
-                sports equipment.
+                Browse our wide selection of stationery, printing supplies, and sports equipment.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link href="/products">
@@ -384,17 +381,11 @@ export default function Home() {
         rel="noopener noreferrer"
         className="fixed bottom-10 right-6 bg-white text-white p-4 rounded-full shadow-lg z-50 transition-all duration-300 hover:scale-110"
       >
-        <Image
-          src="/whatsapp.png"
-          width={40}
-          height={40}
-          alt="whatsapp"
-          className="object-contain"
-        />
+        <Image src="/whatsapp.png" width={40} height={40} alt="whatsapp" className="object-contain" />
         <span className="sr-only">Contact us on WhatsApp</span>
       </Link>
 
       <Footer />
     </div>
-  );
+  )
 }

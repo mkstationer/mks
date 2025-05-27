@@ -175,10 +175,10 @@ export default function CartPage() {
                               </div>
                             </td>
                             <td className="px-6 py-6 text-right text-base font-semibold text-black">
-                              ${item.price.toFixed(2)}
+                              Rs {item.price.toFixed(2)}
                             </td>
                             <td className="px-6 py-6 text-right text-lg font-bold text-black">
-                              ${(item.price * item.quantity).toFixed(2)}
+                              Rs {(item.price * item.quantity).toFixed(2)}
                             </td>
                             <td className="px-6 py-6 text-right">
                               <button
@@ -239,9 +239,9 @@ export default function CartPage() {
                               </button>
                             </div>
                             <div className="mt-3 flex justify-between items-center">
-                              <span className="text-sm text-gray-600">${item.price.toFixed(2)} each</span>
+                              <span className="text-sm text-gray-600">Rs{item.price.toFixed(2)} each</span>
                               <span className="text-lg font-bold text-black">
-                                ${(item.price * item.quantity).toFixed(2)}
+                                Rs {(item.price * item.quantity).toFixed(2)}
                               </span>
                             </div>
                           </div>
@@ -270,7 +270,7 @@ export default function CartPage() {
                   <div className="space-y-4 mb-6">
                     <div className="flex justify-between text-base">
                       <span className="text-gray-600">Subtotal</span>
-                      <span className="font-semibold text-black">${getCartTotal().toFixed(2)}</span>
+                      <span className="font-semibold text-black">Rs {getCartTotal().toFixed(2)}</span>
                     </div>
                     <div className="flex justify-between text-base">
                       <span className="text-gray-600">Shipping</span>
@@ -282,7 +282,7 @@ export default function CartPage() {
                     </div>
                     <div className="border-t border-gray-200 pt-4 flex justify-between">
                       <span className="text-lg font-bold text-black">Total</span>
-                      <span className="text-2xl font-bold text-black">${getCartTotal().toFixed(2)}</span>
+                      <span className="text-2xl font-bold text-black">Rs {getCartTotal().toFixed(2)}</span>
                     </div>
                   </div>
                   <button

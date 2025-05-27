@@ -13,7 +13,7 @@ export default function ProductsPage() {
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(true)
   const [searchTerm, setSearchTerm] = useState("")
-  const [priceRange, setPriceRange] = useState([0, 100])
+  const [priceRange, setPriceRange] = useState([0, 50000])
   const [selectedCategoryId, setSelectedCategoryId] = useState(null)
   const [selectedCategoryName, setSelectedCategoryName] = useState("All Categories")
   const [sortBy, setSortBy] = useState("newest")
@@ -200,21 +200,21 @@ export default function ProductsPage() {
                     <div>
                       <h3 className="font-semibold mb-4 text-black">Price Range</h3>
                       <div className="flex items-center justify-between mb-3">
-                        <span className="text-sm font-medium text-black">${priceRange[0]}</span>
-                        <span className="text-sm font-medium text-black">${priceRange[1]}</span>
+                        <span className="text-sm font-medium text-black">{priceRange[0]}</span>
+                        <span className="text-sm font-medium text-black">{priceRange[1]}</span>
                       </div>
                       <div className="relative h-3 w-full rounded-full bg-gray-200">
                         <div
                           className="absolute h-full rounded-full bg-red-600"
                           style={{
-                            left: `${(priceRange[0] / 100) * 100}%`,
-                            width: `${((priceRange[1] - priceRange[0]) / 100) * 100}%`,
+                            left: `${(priceRange[0] / 50000) * 100}%`,
+                            width: `${((priceRange[1] - priceRange[0]) / 50000) * 100}%`,
                           }}
                         ></div>
                         <input
                           type="range"
                           min="0"
-                          max="100"
+                          max="50000"
                           value={priceRange[0]}
                           onChange={(e) => handlePriceChange(e, 0)}
                           className="absolute w-full h-3 opacity-0 cursor-pointer"
@@ -222,7 +222,7 @@ export default function ProductsPage() {
                         <input
                           type="range"
                           min="0"
-                          max="100"
+                          max="50000"
                           value={priceRange[1]}
                           onChange={(e) => handlePriceChange(e, 1)}
                           className="absolute w-full h-3 opacity-0 cursor-pointer"
@@ -266,21 +266,21 @@ export default function ProductsPage() {
                   <div>
                     <h3 className="font-semibold mb-4 text-black">Price Range</h3>
                     <div className="flex items-center justify-between mb-3">
-                      <span className="text-sm font-medium text-black">${priceRange[0]}</span>
-                      <span className="text-sm font-medium text-black">${priceRange[1]}</span>
+                      <span className="text-sm font-medium text-black">{priceRange[0]}</span>
+                      <span className="text-sm font-medium text-black">{priceRange[1]}</span>
                     </div>
                     <div className="relative h-3 w-full rounded-full bg-gray-200">
                       <div
                         className="absolute h-full rounded-full bg-red-600"
                         style={{
-                          left: `${(priceRange[0] / 100) * 100}%`,
-                          width: `${((priceRange[1] - priceRange[0]) / 100) * 100}%`,
+                          left: `${(priceRange[0] / 50000) * 100}%`,
+                          width: `${((priceRange[1] - priceRange[0]) / 50000) * 100}%`,
                         }}
                       ></div>
                       <input
                         type="range"
                         min="0"
-                        max="100"
+                        max="50000"
                         value={priceRange[0]}
                         onChange={(e) => handlePriceChange(e, 0)}
                         className="absolute w-full h-3 opacity-0 cursor-pointer"
@@ -288,7 +288,7 @@ export default function ProductsPage() {
                       <input
                         type="range"
                         min="0"
-                        max="100"
+                        max="50000"
                         value={priceRange[1]}
                         onChange={(e) => handlePriceChange(e, 1)}
                         className="absolute w-full h-3 opacity-0 cursor-pointer"
@@ -391,9 +391,9 @@ export default function ProductsPage() {
                           </h3>
                           <p className="text-sm text-gray-500 mb-3">{product.categories?.name || "Unknown"}</p>
                           <div className="flex items-center justify-between">
-                            <p className="text-xl font-bold text-black">${product.price.toFixed(2)}</p>
+                            <p className="text-sm font-bold text-black">Rs {product.price.toFixed(2)}</p>
                             <button
-                              className="inline-flex items-center justify-center rounded-lg bg-red-600 hover:bg-red-700 text-white h-9 px-4 text-sm font-semibold transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-offset-2"
+                              className="inline-flex items-center justify-center rounded-lg bg-red-600 hover:bg-red-700 text-white h-9 px-2 text-sm font-semibold transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-offset-2"
                               onClick={(e) => {
                                 e.preventDefault()
                                 e.stopPropagation()

@@ -339,7 +339,7 @@ export default function EditProductPage({ params }) {
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                         <div>
                           <label htmlFor="price" className="block text-sm font-semibold text-black mb-2">
-                            Price ($) *
+                            Price (Rs) *
                           </label>
                           <div className="relative">
                             <DollarSign className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />

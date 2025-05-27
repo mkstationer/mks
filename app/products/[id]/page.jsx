@@ -236,7 +236,7 @@ export default function ProductDetailPage({ params }) {
                   </div>
                 </div>
                 <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
-                  <p className="text-3xl sm:text-4xl font-bold text-red-600">${product.price.toFixed(2)}</p>
+                  <p className="text-3xl sm:text-4xl font-bold text-red-600">Rs {product.price.toFixed(2)}</p>
                 </div>
               </div>
 
