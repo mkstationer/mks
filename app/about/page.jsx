@@ -10,7 +10,7 @@ export default function AboutPage() {
   const stats = [
     { icon: Star, label: "Google Rating", value: "5.0", suffix: "/5" },
     { icon: Users, label: "Happy Customers", value: "1000+", suffix: "" },
-    { icon: Award, label: "Years of Service", value: "10+", suffix: "" },
+    { icon: Award, label: "Years of Service", value: "2+", suffix: "" },
     { icon: Heart, label: "Products Sold", value: "50K+", suffix: "" },
   ]
 
@@ -18,7 +18,7 @@ export default function AboutPage() {
     {
       title: "Quality First",
       description:
-        "We source only the highest quality stationery, printing supplies, and sports equipment for our customers.",
+        "We source only the highest quality Stationery, Printing supplies, Giveaways and Sports equipment for our customers.",
       icon: Award,
     },
     {
@@ -43,11 +43,11 @@ export default function AboutPage() {
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div className="text-center max-w-4xl mx-auto">
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6">
-                About <span className="text-red-500">MK Stationers</span>
+                About <span className="text-red-500">MK's</span>
               </h1>
               <p className="text-xl lg:text-2xl text-gray-200 leading-relaxed">
-                Your trusted partner for quality stationery, printing services, and sports equipment in Islamabad since
-                2014.
+              Your trusted partner for quality Stationery, Printing Services, Corporate Giveaways and Sports Equipment in Islamabad since
+                2023.
               </p>
             </div>
           </div>
@@ -85,7 +85,7 @@ export default function AboutPage() {
                   <h2 className="text-3xl lg:text-4xl font-bold text-black mb-6">Our Story</h2>
                   <div className="space-y-4 text-gray-700 leading-relaxed">
                     <p className="text-lg">
-                      Founded in 2014, MK Stationers has been serving the Islamabad community with dedication and
+                      Founded in 2023, MK's has been serving the Islamabad community with dedication and
                       excellence. What started as a small stationery shop has grown into a comprehensive destination for
                       all your office, school, and sports needs.
                     </p>
@@ -116,7 +116,7 @@ export default function AboutPage() {
               <div className="relative">
                 <div className="absolute inset-0 bg-red-600/10 rounded-2xl blur-2xl"></div>
                 <Image
-                  src="/placeholder.svg?height=500&width=600"
+                  src="/fav.png"
                   alt="MK Stationers Store"
                   width={600}
                   height={500}
@@ -133,7 +133,7 @@ export default function AboutPage() {
             <div className="text-center mb-12 lg:mb-16">
               <h2 className="text-3xl lg:text-4xl font-bold text-black mb-4">Our Values</h2>
               <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                The principles that guide everything we do at MK Stationers
+                The principles that guide everything we do at MK's.
               </p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
@@ -191,9 +191,9 @@ export default function AboutPage() {
                       <div>
                         <h3 className="font-semibold text-black mb-1">Hours</h3>
                         <p className="text-gray-600">
-                          Monday - Saturday: 9:00 AM - 9:00 PM
+                          Monday - Saturday: 9:00 AM - 10:00 PM
                           <br />
-                          Sunday: 10:00 AM - 8:00 PM
+                          Sunday: 11:00 AM - 9:00 PM
                         </p>
                       </div>
                     </div>
@@ -260,7 +260,7 @@ export default function AboutPage() {
             <div className="max-w-3xl mx-auto">
               <h2 className="text-3xl lg:text-4xl font-bold mb-6">Ready to Experience Quality?</h2>
               <p className="text-lg lg:text-xl text-gray-300 mb-8 leading-relaxed">
-                Visit our store today or browse our online catalog to discover why customers trust MK Stationers for all
+                Visit our store today or browse our online catalog to discover why customers trust MK's for all
                 their needs.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">

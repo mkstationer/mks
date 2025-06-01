@@ -27,7 +27,6 @@ export default function ContactPage() {
     e.preventDefault()
     setIsSubmitting(true)
 
-    // Simulate form submission
     setTimeout(() => {
       setIsSubmitting(false)
       setSubmitted(true)
@@ -66,7 +65,7 @@ export default function ContactPage() {
     {
       icon: Clock,
       title: "Store Hours",
-      details: ["Monday - Saturday: 9:00 AM - 9:00 PM", "Sunday: 10:00 AM - 8:00 PM"],
+      details: ["Monday - Saturday: 9:00 AM - 10:00 PM", "Sunday: 11:00 AM - 9:00 PM"],
       action: null,
       link: null,
     },
@@ -82,10 +81,10 @@ export default function ContactPage() {
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div className="text-center max-w-4xl mx-auto">
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6">
-                Contact <span className="text-red-500">MK Stationers</span>
+                Contact <span className="text-red-500">MK's</span>
               </h1>
               <p className="text-xl lg:text-2xl text-gray-200 leading-relaxed">
-                Get in touch with us for all your stationery, printing, and sports equipment needs.
+              Get in touch with us for all your Stationery, Printing, Corporate Giveaways and Sports equipment needs.
               </p>
             </div>
           </div>
@@ -291,7 +290,7 @@ export default function ContactPage() {
                     </div>
                   </div>
                   <p className="text-gray-600 mb-6">
-                    Join over 1000+ satisfied customers who trust MK Stationers for quality products and excellent
+                    Join over 1000+ satisfied customers who trust MK's for quality products and excellent
                     service.
                   </p>
                   <a

@@ -64,129 +64,150 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex min-h-screen flex-col bg-white">
       <Navbar />
       <div className="flex flex-1 items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-        <div className="w-full max-w-md rounded-lg border border-gray-200 bg-white text-gray-950 shadow-sm">
-          <div className="flex flex-col space-y-1.5 p-6">
-            <h3 className="text-2xl font-semibold leading-none tracking-tight text-center">
-              <span className="text-green-700">MK</span> <span className="text-red-600">Stationers</span>
-            </h3>
-            <p className="text-sm text-gray-500 text-center">Create an account to get started</p>
-          </div>
-          <div className="p-6 pt-0">
-            <form onSubmit={handleRegister} className="space-y-4">
-              {error && (
-                <div className="p-3 text-sm bg-red-100 border border-red-200 text-red-600 rounded-md">{error}</div>
-              )}
+        <div className="w-full max-w-md">
+          {/* Enhanced Card with Modern Design */}
+          <div className="rounded-2xl border border-gray-200 bg-white shadow-xl overflow-hidden">
+            {/* Header with Gradient */}
+            <div className="bg-gradient-to-r from-black via-gray-900 to-red-900 p-6 text-center">
+              <h3 className="text-3xl font-bold text-white mb-2">
+                <span className="text-white">MK</span> <span className="text-red-400">Stationers</span>
+              </h3>
+              <p className="text-gray-200">Create your account</p>
+            </div>
 
-              <div className="space-y-2">
-                <label
-                  htmlFor="name"
-                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                >
-                  Full Name
-                </label>
-                <div className="relative">
-                  <User className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-                  <input
-                    id="name"
-                    type="text"
-                    placeholder="John Doe"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    className="pl-10 flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-green-700 focus:border-transparent disabled:cursor-not-allowed disabled:opacity-50"
-                    required
-                  />
+            {/* Form Section */}
+            <div className="p-8">
+              <form onSubmit={handleRegister} className="space-y-6">
+                {error && (
+                  <div className="p-4 text-sm bg-red-50 border border-red-200 text-red-700 rounded-lg flex items-center">
+                    <div className="w-2 h-2 bg-red-500 rounded-full mr-3"></div>
+                    {error}
+                  </div>
+                )}
+
+                {/* Full Name Field */}
+                <div className="space-y-2">
+                  <label htmlFor="name" className="text-sm font-semibold text-black flex items-center">
+                    <User className="h-4 w-4 mr-2 text-red-600" />
+                    Full Name
+                  </label>
+                  <div className="relative">
+                    <input
+                      id="name"
+                      type="text"
+                      placeholder="Enter your full name"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      className="w-full h-12 rounded-lg border-2 border-gray-300 bg-white px-4 py-3 text-black placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-red-600 transition-all duration-200"
+                      required
+                    />
+                  </div>
                 </div>
-              </div>
 
-              <div className="space-y-2">
-                <label
-                  htmlFor="email"
-                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                >
-                  Email
-                </label>
-                <div className="relative">
-                  <Mail className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-                  <input
-                    id="email"
-                    type="email"
-                    placeholder="name@example.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="pl-10 flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-green-700 focus:border-transparent disabled:cursor-not-allowed disabled:opacity-50"
-                    required
-                  />
+                {/* Email Field */}
+                <div className="space-y-2">
+                  <label htmlFor="email" className="text-sm font-semibold text-black flex items-center">
+                    <Mail className="h-4 w-4 mr-2 text-red-600" />
+                    Email Address
+                  </label>
+                  <div className="relative">
+                    <input
+                      id="email"
+                      type="email"
+                      placeholder="Enter your email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      className="w-full h-12 rounded-lg border-2 border-gray-300 bg-white px-4 py-3 text-black placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-red-600 transition-all duration-200"
+                      required
+                    />
+                  </div>
                 </div>
-              </div>
 
-              <div className="space-y-2">
-                <label
-                  htmlFor="password"
-                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                {/* Password Field */}
+                <div className="space-y-2">
+                  <label htmlFor="password" className="text-sm font-semibold text-black flex items-center">
+                    <Lock className="h-4 w-4 mr-2 text-red-600" />
+                    Password
+                  </label>
+                  <div className="relative">
+                    <input
+                      id="password"
+                      type={showPassword ? "text" : "password"}
+                      placeholder="Create a password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      className="w-full h-12 rounded-lg border-2 border-gray-300 bg-white px-4 py-3 pr-12 text-black placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-red-600 transition-all duration-200"
+                      required
+                    />
+                    <button
+                      type="button"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-gray-400 hover:text-red-600 transition-colors"
+                      onClick={() => setShowPassword(!showPassword)}
+                    >
+                      {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                      <span className="sr-only">{showPassword ? "Hide password" : "Show password"}</span>
+                    </button>
+                  </div>
+                </div>
+
+                {/* Confirm Password Field */}
+                <div className="space-y-2">
+                  <label htmlFor="confirmPassword" className="text-sm font-semibold text-black flex items-center">
+                    <Lock className="h-4 w-4 mr-2 text-red-600" />
+                    Confirm Password
+                  </label>
+                  <div className="relative">
+                    <input
+                      id="confirmPassword"
+                      type={showPassword ? "text" : "password"}
+                      placeholder="Confirm your password"
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      className="w-full h-12 rounded-lg border-2 border-gray-300 bg-white px-4 py-3 text-black placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-red-600 transition-all duration-200"
+                      required
+                    />
+                  </div>
+                </div>
+
+                {/* Submit Button */}
+                <button
+                  type="submit"
+                  className="w-full h-12 rounded-lg bg-red-600 hover:bg-red-700 text-white font-semibold transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-offset-2 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+                  disabled={loading}
                 >
-                  Password
-                </label>
+                  {loading ? (
+                    <div className="flex items-center justify-center">
+                      <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-white mr-3"></div>
+                      Creating Account...
+                    </div>
+                  ) : (
+                    "Create Account"
+                  )}
+                </button>
+              </form>
+
+              {/* Login Link */}
+              <div className="mt-8 text-center">
                 <div className="relative">
-                  <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-                  <input
-                    id="password"
-                    type={showPassword ? "text" : "password"}
-                    placeholder="••••••••"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="pl-10 flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-green-700 focus:border-transparent disabled:cursor-not-allowed disabled:opacity-50"
-                    required
-                  />
-                  <button
-                    type="button"
-                    className="absolute right-0 top-0 h-full px-3 inline-flex items-center justify-center rounded-md bg-transparent text-gray-400 hover:text-gray-500"
-                    onClick={() => setShowPassword(!showPassword)}
+                  <div className="absolute inset-0 flex items-center">
+                    <div className="w-full border-t border-gray-300"></div>
+                  </div>
+                  <div className="relative flex justify-center text-sm">
+                    <span className="px-4 bg-white text-gray-500">Already have an account?</span>
+                  </div>
+                </div>
+                <div className="mt-4">
+                  <Link
+                    href="/auth/login"
+                    className="inline-flex items-center justify-center w-full h-12 rounded-lg border-2 border-black text-black hover:bg-black hover:text-white font-semibold transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
                   >
-                    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                    <span className="sr-only">{showPassword ? "Hide password" : "Show password"}</span>
-                  </button>
+                    Sign In Instead
+                  </Link>
                 </div>
               </div>
-
-              <div className="space-y-2">
-                <label
-                  htmlFor="confirmPassword"
-                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                >
-                  Confirm Password
-                </label>
-                <div className="relative">
-                  <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-                  <input
-                    id="confirmPassword"
-                    type={showPassword ? "text" : "password"}
-                    placeholder="••••••••"
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                    className="pl-10 flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-green-700 focus:border-transparent disabled:cursor-not-allowed disabled:opacity-50"
-                    required
-                  />
-                </div>
-              </div>
-
-              <button
-                type="submit"
-                className="inline-flex items-center justify-center rounded-md bg-red-600 hover:bg-red-700 text-white h-10 px-4 py-2 w-full font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-600 disabled:pointer-events-none disabled:opacity-50"
-                disabled={loading}
-              >
-                {loading ? "Creating account..." : "Register"}
-              </button>
-            </form>
-          </div>
-          <div className="flex flex-col space-y-4 p-6 pt-0">
-            <div className="text-center text-sm">
-              Already have an account?{" "}
-              <Link href="/auth/login" className="text-green-700 hover:underline">
-                Login
-              </Link>
             </div>
           </div>
         </div>

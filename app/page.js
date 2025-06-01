@@ -179,11 +179,12 @@ export default function Home() {
                     <span className="text-red-500">MK's</span>
                     <br />
                     <span className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-medium text-gray-200">
-                      Stationers
+                    Bringing the best to you.
                     </span>
                   </h1>
                   <p className="text-lg sm:text-xl lg:text-2xl text-gray-200 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
-                    Bringing the best to you.
+                  
+                    Stationery, Sports Items, Corporate Giveaways, Photostat, Printing & Photo Frames.
                   </p>
                 </div>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
@@ -246,7 +247,7 @@ export default function Home() {
             <div className="text-center mb-12 lg:mb-16">
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-black mb-4">Our Products</h2>
               <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-                Discover our carefully curated selection of quality products across all categories
+              Discover our wide range of quality Stationery, Printing Supplies, Corporate Giveaways and Sports equipment.
               </p>
             </div>
 

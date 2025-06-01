@@ -94,7 +94,7 @@ export default function PrivacyPage() {
                 <h2 className="text-2xl lg:text-3xl font-bold text-black mb-6">Our Commitment to Your Privacy</h2>
                 <div className="space-y-4 text-gray-700 leading-relaxed">
                   <p className="text-lg">
-                    At MK Stationers, we are committed to protecting your privacy and ensuring the security of your
+                    At MK's, we are committed to protecting your privacy and ensuring the security of your
                     personal information. This Privacy Policy explains how we collect, use, disclose, and safeguard your
                     information when you visit our website or make a purchase from our store.
                   </p>
@@ -210,7 +210,7 @@ export default function PrivacyPage() {
                       </button>
                     </Link>
                     <a
-                      href="mailto:info@mkstationers.com"
+                      href="mailto:mkstationer@gmail.com"
                       className="w-full sm:w-auto inline-flex items-center justify-center rounded-lg border-2 border-white text-white hover:bg-white hover:text-black h-12 px-8 py-3 font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
                     >
                       Email Us

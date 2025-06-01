@@ -62,10 +62,10 @@ export default function CartPage() {
     let message = "Hello! I would like to place an order for the following items:\n\n"
 
     cartItems.forEach((item) => {
-      message += `• ${item.name} - ${item.quantity} x $${item.price.toFixed(2)} = $${(item.quantity * item.price).toFixed(2)}\n`
+      message += `• ${item.name} - ${item.quantity} x RS ${item.price.toFixed(2)} = RS ${(item.quantity * item.price).toFixed(2)}\n`
     })
 
-    message += `\nTotal: $${getCartTotal().toFixed(2)}`
+    message += `\nTotal: RS ${getCartTotal().toFixed(2)}`
     message += "\n\nPlease confirm my order. Thank you!"
 
     // Encode the message for URL

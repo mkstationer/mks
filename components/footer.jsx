@@ -9,10 +9,10 @@ export default function Footer() {
           {/* Brand Section */}
           <div className="sm:col-span-2 lg:col-span-1">
             <h3 className="text-xl lg:text-2xl font-bold mb-4">
-              <span className="text-red-600">MK's</span> <span className="text-white">Stationers</span>
+              <span className="text-red-600">MK</span> <span className="text-white">'s</span>
             </h3>
             <p className="text-gray-300 mb-6 leading-relaxed">
-              Your one-stop shop for all stationery, printing, and sports equipment needs.
+            Your one-stop shop for all Stationery, Printing, Corporate Giveaways and Sports equipment needs.
             </p>
             <div className="flex space-x-4">
               <Link
@@ -147,10 +147,10 @@ export default function Footer() {
               <li className="flex items-center group">
                 <Mail className="h-5 w-5 mr-3 text-red-600 flex-shrink-0 group-hover:text-red-500 transition-colors duration-200" />
                 <Link
-                  href="mailto:info@mkstationers.com"
+                  href="mailto:mkstationer@gmail.com"
                   className="text-gray-300 hover:text-red-600 transition-colors duration-200"
                 >
-                  info@mkstationers.com
+                  mkstationer@gmail.com
                 </Link>
               </li>
             </ul>
@@ -161,7 +161,7 @@ export default function Footer() {
         <div className="border-t border-gray-800 mt-12 lg:mt-16 pt-8">
           <div className="flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
             <p className="text-gray-400 text-center sm:text-left">
-              &copy; {new Date().getFullYear()} MK Stationers. All rights reserved.
+              &copy; {new Date().getFullYear()} MK's. All rights reserved.
             </p>
             <div className="flex items-center space-x-6">
               <Link href="/admin" className="text-gray-400 hover:text-red-600 transition-colors duration-200 text-sm">

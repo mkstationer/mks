@@ -1,13 +1,16 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState ,useCallback} from "react"
 import { supabase } from "@/lib/supabaseClient"
 import { Search, SlidersHorizontal, MessageCircle, X } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 import Navbar from "@/components/navbar"
 import Footer from "@/components/footer"
-import CategorySelector from "@/components/category-selector"
+import CategorySelector from "@/components/category-selector";
+import { useCart } from "@/context/cart-context";
+import { useToast } from "@/components/ui/use-toast";
+
 
 export default function ProductsPage() {
   const [products, setProducts] = useState([])
@@ -18,6 +21,8 @@ export default function ProductsPage() {
   const [selectedCategoryName, setSelectedCategoryName] = useState("All Categories")
   const [sortBy, setSortBy] = useState("newest")
   const [isFilterOpen, setIsFilterOpen] = useState(false)
+  const { addToCart } = useCart();
+  const { toast } = useToast()
 
   useEffect(() => {
     fetchProducts()
@@ -100,29 +105,28 @@ export default function ProductsPage() {
       if (sortBy === "price-high") return b.price - a.price
       return 0
     })
+  const handleAddToCart = useCallback(
+    (product) => {
+      // Get the first image if it's an array, otherwise use the single image
+      const productImage = Array.isArray(product.image_url) ? product.image_url[0] : product.image_url
 
-  const addToCart = (product) => {
-    const cartItem = {
-      id: product.id,
-      name: product.name,
-      price: product.price,
-      category: product.categories?.name || "Unknown",
-      image: getProductImage(product),
-      quantity: 1,
-    }
+      addToCart({
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        category: product.categories?.name || "Unknown",
+        image: productImage,
+        quantity: 1,
+      })
 
-    const existingCart = JSON.parse(localStorage.getItem("cart") || "[]")
-    const existingItemIndex = existingCart.findIndex((item) => item.id === product.id)
-
-    if (existingItemIndex > -1) {
-      existingCart[existingItemIndex].quantity += 1
-    } else {
-      existingCart.push(cartItem)
-    }
-
-    localStorage.setItem("cart", JSON.stringify(existingCart))
-    alert(`${product.name} added to cart!`)
-  }
+      toast({
+        title: "Added to cart",
+        description: `${product.name} has been added to your cart.`,
+        duration: 3000,
+      })
+    },
+    [addToCart, toast],
+  )
 
   return (
     <div className="flex min-h-screen flex-col bg-white">
@@ -133,7 +137,7 @@ export default function ProductsPage() {
           <div className="text-center mb-8 sm:mb-12">
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-black mb-4">Our Products</h1>
             <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-              Discover our wide range of quality stationery, printing supplies, and sports equipment
+            Discover our wide range of quality Stationery, Printing Supplies, Corporate Giveaways and Sports equipment.
             </p>
           </div>
 
@@ -397,7 +401,7 @@ export default function ProductsPage() {
                               onClick={(e) => {
                                 e.preventDefault()
                                 e.stopPropagation()
-                                addToCart(product)
+                                handleAddToCart(product)
                               }}
                             >
                               Add to Cart

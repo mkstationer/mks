@@ -94,7 +94,7 @@ export default function TermsPage() {
                 <h2 className="text-2xl lg:text-3xl font-bold text-black mb-6">Agreement to Terms</h2>
                 <div className="space-y-4 text-gray-700 leading-relaxed">
                   <p className="text-lg">
-                    Welcome to MK Stationers. These Terms of Service ("Terms") govern your use of our website and
+                    Welcome to MK's. These Terms of Service ("Terms") govern your use of our website and
                     services. By accessing our website or making a purchase, you agree to be bound by these Terms.
                   </p>
                   <p>
@@ -143,7 +143,7 @@ export default function TermsPage() {
                   <ul className="space-y-3 text-gray-700">
                     <li className="flex items-start">
                       <span className="w-2 h-2 bg-red-600 rounded-full mr-3 mt-2 flex-shrink-0"></span>
-                      <span>All website content is owned by MK Stationers</span>
+                      <span>All website content is owned by MK's</span>
                     </li>
                     <li className="flex items-start">
                       <span className="w-2 h-2 bg-red-600 rounded-full mr-3 mt-2 flex-shrink-0"></span>
