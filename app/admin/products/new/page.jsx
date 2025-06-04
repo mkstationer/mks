@@ -39,15 +39,46 @@ export default function NewProductPage() {
   const handleImageChange = (e) => {
     if (e.target.files) {
       const files = Array.from(e.target.files)
+
+      // Clear the input to allow re-selecting the same files
+      e.target.value = ""
+
+      // Add files to images array
       setImages((prev) => [...prev, ...files])
 
-      // Create previews
+      // Create previews with better error handling
       files.forEach((file) => {
-        const reader = new FileReader()
-        reader.onload = () => {
-          console.log("Preview created:", reader.result) // This will show the data URL
-          setImagePreviews((prev) => [...prev, reader.result])
+        // Validate file type
+        if (!file.type.startsWith("image/")) {
+          console.error("Invalid file type:", file.type)
+          return
         }
+
+        // Validate file size (5MB limit)
+        if (file.size > 5 * 1024 * 1024) {
+          console.error("File too large:", file.name)
+          return
+        }
+
+        const reader = new FileReader()
+
+        reader.onload = (event) => {
+          const result = event.target.result
+          console.log("Preview created for file:", file.name)
+          console.log("Data URL starts with:", result.substring(0, 50))
+
+          // Add to previews array
+          setImagePreviews((prev) => {
+            const newPreviews = [...prev, result]
+            console.log("Total previews:", newPreviews.length)
+            return newPreviews
+          })
+        }
+
+        reader.onerror = (error) => {
+          console.error("FileReader error:", error)
+        }
+
         reader.readAsDataURL(file)
       })
     }
@@ -126,7 +157,6 @@ export default function NewProductPage() {
       </div>
     )
   }
-  console.log("imagePreviews",imagePreviews)
 
   return (
     <div className="flex min-h-screen flex-col bg-gray-50">
@@ -316,23 +346,41 @@ export default function NewProductPage() {
                             </h4>
                             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
                               {imagePreviews.map((preview, index) => (
-                                <div key={index} className="relative group">
-                                  <div className="relative aspect-square overflow-hidden rounded-lg border-2 border-gray-200 bg-gray-50">
+                                <div key={`preview-${index}`} className="relative group">
+                                  <div className="relative aspect-square overflow-hidden rounded-lg border-2 border-gray-200 bg-white shadow-sm">
                                     <img
-                                      src={preview || "/placeholder.svg"}
+                                      src={preview}
                                       alt={`Preview ${index + 1}`}
-                                      className="h-full w-full object-cover"
-                                      onError={(e) => {
-                                        console.error("Image failed to load:", preview)
-                                        e.target.src = "/placeholder.svg"
+                                      className="h-full w-full object-cover opacity-100"
+                                      style={{
+                                        display: "block",
+                                        maxWidth: "100%",
+                                        maxHeight: "100%",
+                                        opacity: "1",
+                                        visibility: "visible",
                                       }}
+                                      onLoad={(e) => {
+                                        console.log(`Image ${index + 1} loaded successfully`)
+                                        e.target.style.opacity = "1"
+                                        e.target.style.visibility = "visible"
+                                      }}
+                                      // onError={(e) => {
+                                      //   console.error(`Image ${index + 1} failed to load`)
+                                      //   // e.target.src = "/placeholder.svg?height=200&width=200"
+                                      //   e.target.style.backgroundColor = "#fee2e2"
+                                      //   e.target.style.border = "2px solid #fca5a5"
+                                      // }}
                                     />
                                     <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-200" />
                                   </div>
                                   <button
                                     type="button"
-                                    onClick={() => removeImage(index)}
-                                    className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 hover:bg-red-600 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-200 shadow-lg"
+                                    onClick={(e) => {
+                                      e.preventDefault()
+                                      e.stopPropagation()
+                                      removeImage(index)
+                                    }}
+                                    className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 hover:bg-red-600 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-200 shadow-lg z-10"
                                   >
                                     <X className="h-3 w-3" />
                                   </button>

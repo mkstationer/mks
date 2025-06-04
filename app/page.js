@@ -20,6 +20,16 @@ export default function Home() {
   const [categories, setCategories] = useState([])
   const [categoryHierarchy, setCategoryHierarchy] = useState({}) // Cache for category descendants
 
+  // Define the specific categories we want to show
+  const specificCategories = [
+    "All",
+    "STATIONERY",
+    "SPORTS ITEMS",
+    "CORPORATE GIVEAWAYS",
+    "PRINTING AND PHOTOSTAT",
+    "Art & Painting",
+  ]
+
   // Pre-calculate all category descendants for instant filtering
   const categoriesWithCounts = useMemo(() => {
     if (categories.length === 0 || products.length === 0) return []
@@ -43,19 +53,19 @@ export default function Home() {
   // Instant product filtering using cached hierarchy
   const filteredProducts = useMemo(() => {
     if (activeCategory === "All") {
-      return products.slice(0, 12)
+      return products.slice(0, 8)
     }
 
     const selectedCat = categories.find((cat) => cat.label === activeCategory)
     if (!selectedCat || !selectedCat.id) {
-      return products.slice(0, 12)
+      return products.slice(0, 8)
     }
 
     // Use cached hierarchy for instant filtering
     const categoryIds = categoryHierarchy[selectedCat.id] || [selectedCat.id]
     const filtered = products.filter((product) => categoryIds.includes(product.category_id))
 
-    return filtered.slice(0, 12)
+    return filtered.slice(0, 8)
   }, [activeCategory, categories, products, categoryHierarchy])
 
   useEffect(() => {
@@ -74,15 +84,25 @@ export default function Home() {
 
       if (error) throw error
 
+      // Filter to only include our specific categories
+      const filteredData = data.filter(
+        (cat) => specificCategories.includes(cat.name) || cat.name === "All", // Always include "All"
+      )
+
       const formattedCategories = [
-        { id: null, label: "All", level: -1 },
-        ...data.map((cat) => ({ id: cat.id, label: cat.name, level: cat.level, parent_id: cat.parent_id })),
+        { id: null, label: "All", level: -1 }, // Always include "All"
+        ...filteredData.map((cat) => ({ id: cat.id, label: cat.name, level: cat.level, parent_id: cat.parent_id })),
       ]
 
-      setCategories(formattedCategories)
+      // Remove duplicates (in case "All" appears twice)
+      const uniqueCategories = formattedCategories.filter(
+        (cat, index, self) => index === self.findIndex((c) => c.label === cat.label),
+      )
+
+      setCategories(uniqueCategories)
 
       // Pre-calculate category hierarchy for instant filtering
-      buildCategoryHierarchy(data)
+      buildCategoryHierarchy(data) // Still use all data for hierarchy
     } catch (error) {
       console.error("Error fetching categories:", error)
     }
@@ -174,7 +194,7 @@ export default function Home() {
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div className="grid gap-8 lg:grid-cols-2 lg:gap-16 items-center">
               <div className="space-y-6 lg:space-y-8 text-center lg:text-left">
-                <div className="space-y-4">
+              <div className="space-y-4">
                   <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold text-white leading-tight">
                     <span className="text-red-500">MK's</span>
                     <br />
@@ -251,6 +271,7 @@ export default function Home() {
               </p>
             </div>
 
+            {/* Enhanced Category Tabs with Product Counts - Your Preferred Design */}
             <div className="w-full mb-12">
               <div className="flex justify-center mb-12">
                 <div className="bg-gray-100 p-2 rounded-xl shadow-sm border border-gray-200 overflow-x-auto scrollbar-hide max-w-full">
@@ -279,6 +300,7 @@ export default function Home() {
                 </div>
               </div>
 
+          
               {/* Products Grid */}
               {loading ? (
                 <div className="text-center py-16">

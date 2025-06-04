@@ -42,69 +42,69 @@ export default function LoginPage() {
     <div className="flex min-h-screen flex-col">
       <Navbar />
       <div className="flex flex-1 items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-        <div className="w-full max-w-md rounded-lg border border-gray-200 bg-white text-gray-950 shadow-sm">
-          <div className="flex flex-col space-y-1.5 p-6">
-            <h3 className="text-2xl font-semibold leading-none tracking-tight text-center">
-              <span className="text-green-700">MK</span> <span className="text-red-600">Stationers</span>
-            </h3>
-            <p className="text-sm text-gray-500 text-center">Enter your credentials to login to your account</p>
+        <div className="w-full max-w-md rounded-xl border border-gray-200 bg-white shadow-lg overflow-hidden">
+          {/* Header with gradient */}
+          <div className="bg-gradient-to-r from-black via-gray-900 to-red-900 p-6 text-center">
+            <h3 className="text-2xl font-bold text-white mb-2">Welcome Back</h3>
+            <p className="text-gray-200 text-sm">
+              Sign in to your <span className="font-semibold">MK'S</span> account
+            </p>
           </div>
-          <div className="p-6 pt-0">
-            <form onSubmit={handleLogin} className="space-y-4">
+
+          <div className="p-8">
+            <form onSubmit={handleLogin} className="space-y-6">
               {error && (
-                <div className="p-3 text-sm bg-red-100 border border-red-200 text-red-600 rounded-md">{error}</div>
+                <div className="p-4 text-sm bg-red-50 border border-red-200 text-red-700 rounded-lg flex items-center">
+                  <div className="w-2 h-2 bg-red-500 rounded-full mr-3"></div>
+                  {error}
+                </div>
               )}
 
               <div className="space-y-2">
-                <label
-                  htmlFor="email"
-                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                >
-                  Email
+                <label htmlFor="email" className="flex items-center text-sm font-semibold text-black mb-2">
+                  <Mail className="mr-2 h-4 w-4 text-red-600" />
+                  Email Address
                 </label>
-                <div className="relative">
-                  <Mail className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-                  <input
-                    id="email"
-                    type="email"
-                    placeholder="name@example.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="pl-10 flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-green-700 focus:border-transparent disabled:cursor-not-allowed disabled:opacity-50"
-                    required
-                  />
-                </div>
+                <input
+                  id="email"
+                  type="email"
+                  placeholder="Enter your email address"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full h-12 rounded-lg border-2 border-gray-300 bg-white px-4 py-3 text-black placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-red-600 transition-all duration-200"
+                  required
+                />
               </div>
 
               <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <label
-                    htmlFor="password"
-                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                  >
+                <div className="flex items-center justify-between mb-2">
+                  <label htmlFor="password" className="flex items-center text-sm font-semibold text-black">
+                    <Lock className="mr-2 h-4 w-4 text-red-600" />
                     Password
                   </label>
-                  <Link href="/auth/forgot-password" className="text-xs text-green-700 hover:underline">
+                  <Link
+                    href="/auth/forgot-password"
+                    className="text-xs text-red-600 hover:text-red-700 hover:underline transition-colors"
+                  >
                     Forgot password?
                   </Link>
                 </div>
                 <div className="relative">
-                  <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                   <input
                     id="password"
                     type={showPassword ? "text" : "password"}
-                    placeholder="••••••••"
+                    placeholder="Enter your password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="pl-10 flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-green-700 focus:border-transparent disabled:cursor-not-allowed disabled:opacity-50"
+                    className="w-full h-12 rounded-lg border-2 border-gray-300 bg-white px-4 py-3 pr-12 text-black placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-red-600 transition-all duration-200"
                     required
                   />
                   <button
                     type="button"
-                    className="absolute right-0 top-0 h-full px-3 inline-flex items-center justify-center rounded-md bg-transparent text-gray-400 hover:text-gray-500"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-gray-400 hover:text-red-600 transition-colors"
                     onClick={() => setShowPassword(!showPassword)}
                   >
-                    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                    {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                     <span className="sr-only">{showPassword ? "Hide password" : "Show password"}</span>
                   </button>
                 </div>
@@ -112,18 +112,29 @@ export default function LoginPage() {
 
               <button
                 type="submit"
-                className="inline-flex items-center justify-center rounded-md bg-green-700 hover:bg-green-800 text-white h-10 px-4 py-2 w-full font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-700 disabled:pointer-events-none disabled:opacity-50"
+                className="w-full h-12 bg-red-600 hover:bg-red-700 text-white rounded-lg font-semibold transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center"
                 disabled={loading}
               >
-                {loading ? "Logging in..." : "Login"}
+                {loading ? (
+                  <>
+                    <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent mr-2"></div>
+                    Signing in...
+                  </>
+                ) : (
+                  "Sign In"
+                )}
               </button>
             </form>
           </div>
-          <div className="flex flex-col space-y-4 p-6 pt-0">
-            <div className="text-center text-sm">
-              Don&apos;t have an account?{" "}
-              <Link href="/auth/register" className="text-green-700 hover:underline">
-                Register
+
+          {/* Footer */}
+          <div className="border-t border-gray-200 bg-gray-50 px-8 py-6">
+            <div className="text-center">
+              <p className="text-sm text-gray-600 mb-3">Don't have an account yet?</p>
+              <Link href="/auth/register">
+                <button className="w-full h-10 border-2 border-red-600 text-red-600 hover:bg-red-600 hover:text-white rounded-lg font-semibold transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-offset-2">
+                  Create Account
+                </button>
               </Link>
             </div>
           </div>

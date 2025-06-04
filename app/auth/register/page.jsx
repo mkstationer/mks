@@ -73,7 +73,7 @@ export default function RegisterPage() {
             {/* Header with Gradient */}
             <div className="bg-gradient-to-r from-black via-gray-900 to-red-900 p-6 text-center">
               <h3 className="text-3xl font-bold text-white mb-2">
-                <span className="text-white">MK</span> <span className="text-red-400">Stationers</span>
+                <span className="text-white">MK</span> <span className="text-red-400">'S</span>
               </h3>
               <p className="text-gray-200">Create your account</p>
             </div>
