@@ -291,7 +291,7 @@ export default function AdminProductsPage() {
                                   alt={product.name}
                                   width={48}
                                   height={48}
-                                  className="h-full w-full object-cover"
+                                  className="h-full w-full object-contain"
                                 />
                               </div>
                               <div className="ml-4">
@@ -366,7 +366,7 @@ export default function AdminProductsPage() {
                             alt={product.name}
                             width={64}
                             height={64}
-                            className="h-full w-full object-cover"
+                            className="h-full w-full object-contain"
                           />
                         </div>
                         <div className="flex-1 min-w-0">

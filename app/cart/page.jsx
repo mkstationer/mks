@@ -141,7 +141,7 @@ export default function CartPage() {
                                     alt={item.name}
                                     width={80}
                                     height={80}
-                                    className="h-full w-full object-cover"
+                                    className="h-full w-full object-contain"
                                   />
                                 </div>
                                 <div className="ml-4">
@@ -206,7 +206,7 @@ export default function CartPage() {
                               alt={item.name}
                               width={80}
                               height={80}
-                              className="h-full w-full object-cover"
+                              className="h-full w-full object-contain"
                             />
                           </div>
                           <div className="flex-1 min-w-0">

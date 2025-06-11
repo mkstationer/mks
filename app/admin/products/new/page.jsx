@@ -351,7 +351,7 @@ export default function NewProductPage() {
                                     <img
                                       src={preview}
                                       alt={`Preview ${index + 1}`}
-                                      className="h-full w-full object-cover opacity-100"
+                                      className="h-full w-full object-contain opacity-100"
                                       style={{
                                         display: "block",
                                         maxWidth: "100%",
@@ -364,14 +364,14 @@ export default function NewProductPage() {
                                         e.target.style.opacity = "1"
                                         e.target.style.visibility = "visible"
                                       }}
-                                      // onError={(e) => {
-                                      //   console.error(`Image ${index + 1} failed to load`)
-                                      //   // e.target.src = "/placeholder.svg?height=200&width=200"
-                                      //   e.target.style.backgroundColor = "#fee2e2"
-                                      //   e.target.style.border = "2px solid #fca5a5"
-                                      // }}
+                                      onError={(e) => {
+                                        console.error(`Image ${index + 1} failed to load`)
+                                        // e.target.src = "/placeholder.svg?height=200&width=200"
+                                        e.target.style.backgroundColor = "#fee2e2"
+                                        e.target.style.border = "2px solid #fca5a5"
+                                      }}
                                     />
-                                    <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-200" />
+                                    {/* <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-200" /> */}
                                   </div>
                                   <button
                                     type="button"

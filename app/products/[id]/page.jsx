@@ -155,7 +155,7 @@ export default function ProductDetailPage({ params }) {
                   src={images[selectedImageIndex] || "/placeholder.svg"}
                   alt={product.name}
                   fill
-                  className="object-cover"
+                  className="object-contain"
                   priority
                 />
                 {images.length > 1 && (
@@ -207,7 +207,7 @@ export default function ProductDetailPage({ params }) {
                         src={image || "/placeholder.svg"}
                         alt={`${product.name} ${index + 1}`}
                         fill
-                        className="object-cover"
+                        className="object-contain"
                       />
                     </button>
                   ))}

@@ -401,9 +401,9 @@ export default function EditProductPage({ params }) {
                                     <img
                                       src={url || "/placeholder.svg"}
                                       alt={`Current ${index + 1}`}
-                                      className="h-full w-full object-cover"
+                                      className="h-full w-full object-contain"
                                     />
-                                    <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-200" />
+                                    {/* <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-200" /> */}
                                   </div>
                                   <button
                                     type="button"
@@ -456,9 +456,9 @@ export default function EditProductPage({ params }) {
                                     <img
                                       src={preview || "/placeholder.svg"}
                                       alt={`New ${index + 1}`}
-                                      className="h-full w-full object-cover"
+                                      className="h-full w-full object-contain"
                                     />
-                                    <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-200" />
+                                    {/* <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-200" /> */}
                                     <div className="absolute top-2 left-2 bg-green-500 text-white text-xs px-2 py-1 rounded-full font-medium">
                                       New
                                     </div>
