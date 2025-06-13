@@ -1,42 +1,53 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import Link from "next/link"
-import { useRouter } from "next/navigation"
-import { supabase } from "@/lib/supabaseClient"
-import { Eye, EyeOff, Lock, Mail } from "lucide-react"
-import Navbar from "@/components/navbar"
-import Footer from "@/components/footer"
+import { useState , useEffect } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { supabase } from "@/lib/supabaseClient";
+import { Eye, EyeOff, Lock, Mail } from "lucide-react";
+import Navbar from "@/components/navbar";
+import Footer from "@/components/footer";
 
 export default function LoginPage() {
-  const router = useRouter()
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [showPassword, setShowPassword] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(null)
+  const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
+  useEffect(() => {
+    // Check if user is already logged in
+    const checkUser = async () => {
+      const { data } = await supabase.auth.getUser();
+      if (data.user) {
+        router.push("/admin/products");
+      }
+    };
+
+    checkUser();
+  }, [router]);
   const handleLogin = async (e) => {
-    e.preventDefault()
-    setError(null)
-    setLoading(true)
+    e.preventDefault();
+    setError(null);
+    setLoading(true);
 
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
-      })
+      });
 
-      if (error) throw error
+      if (error) throw error;
 
-      router.push("/")
-      router.refresh()
+      router.push("/");
+      router.refresh();
     } catch (error) {
-      setError(error.message || "Failed to login")
+      setError(error.message || "Failed to login");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -47,7 +58,8 @@ export default function LoginPage() {
           <div className="bg-gradient-to-r from-black via-gray-900 to-red-900 p-6 text-center">
             <h3 className="text-2xl font-bold text-white mb-2">Welcome Back</h3>
             <p className="text-gray-200 text-sm">
-              Sign in to your <span className="font-semibold">MK'S</span> account
+              Sign in to your <span className="font-semibold">MK'S</span>{" "}
+              account
             </p>
           </div>
 
@@ -61,7 +73,10 @@ export default function LoginPage() {
               )}
 
               <div className="space-y-2">
-                <label htmlFor="email" className="flex items-center text-sm font-semibold text-black mb-2">
+                <label
+                  htmlFor="email"
+                  className="flex items-center text-sm font-semibold text-black mb-2"
+                >
                   <Mail className="mr-2 h-4 w-4 text-red-600" />
                   Email Address
                 </label>
@@ -78,7 +93,10 @@ export default function LoginPage() {
 
               <div className="space-y-2">
                 <div className="flex items-center justify-between mb-2">
-                  <label htmlFor="password" className="flex items-center text-sm font-semibold text-black">
+                  <label
+                    htmlFor="password"
+                    className="flex items-center text-sm font-semibold text-black"
+                  >
                     <Lock className="mr-2 h-4 w-4 text-red-600" />
                     Password
                   </label>
@@ -104,8 +122,14 @@ export default function LoginPage() {
                     className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-gray-400 hover:text-red-600 transition-colors"
                     onClick={() => setShowPassword(!showPassword)}
                   >
-                    {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
-                    <span className="sr-only">{showPassword ? "Hide password" : "Show password"}</span>
+                    {showPassword ? (
+                      <EyeOff className="h-5 w-5" />
+                    ) : (
+                      <Eye className="h-5 w-5" />
+                    )}
+                    <span className="sr-only">
+                      {showPassword ? "Hide password" : "Show password"}
+                    </span>
                   </button>
                 </div>
               </div>
@@ -130,7 +154,9 @@ export default function LoginPage() {
           {/* Footer */}
           <div className="border-t border-gray-200 bg-gray-50 px-8 py-6">
             <div className="text-center">
-              <p className="text-sm text-gray-600 mb-3">Don't have an account yet?</p>
+              <p className="text-sm text-gray-600 mb-3">
+                Don't have an account yet?
+              </p>
               <Link href="/auth/register">
                 <button className="w-full h-10 border-2 border-red-600 text-red-600 hover:bg-red-600 hover:text-white rounded-lg font-semibold transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-offset-2">
                   Create Account
@@ -142,5 +168,5 @@ export default function LoginPage() {
       </div>
       <Footer />
     </div>
-  )
+  );
 }

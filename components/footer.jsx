@@ -164,7 +164,7 @@ export default function Footer() {
               &copy; {new Date().getFullYear()} MK's. All rights reserved.
             </p>
             <div className="flex items-center space-x-6">
-              <Link href="/admin" className="text-gray-400 hover:text-red-600 transition-colors duration-200 text-sm">
+              <Link href="/auth/login" className="text-gray-400 hover:text-red-600 transition-colors duration-200 text-sm">
                 Admin Login
               </Link>
               <Link href="/privacy" className="text-gray-400 hover:text-red-600 transition-colors duration-200 text-sm">
