@@ -38,12 +38,12 @@ export default function Navbar() {
         <Link href="/" className="flex items-center gap-2 group">
           <div className="relative overflow-hidden rounded-lg transition-transform duration-200 group-hover:scale-105">
             <Image
-              src="/logo.png"
+              src="/logo.jpeg"
               alt="MK Stationers Logo"
               width={60}
               height={50}
               priority
-              className="object-contain"
+              className="object-contain mt-5 mb-2"
             />
           </div>
         </Link>

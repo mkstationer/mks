@@ -202,10 +202,6 @@ export default function Home() {
                     Bringing the best to you.
                     </span>
                   </h1>
-                  <p className="text-lg sm:text-xl lg:text-2xl text-gray-200 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
-                  
-                    Stationery, Sports Items, Corporate Giveaways, Photostat, Printing & Photo Frames.
-                  </p>
                 </div>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                   <Link href="/products">
@@ -266,9 +262,7 @@ export default function Home() {
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12 lg:mb-16">
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-black mb-4">Our Products</h2>
-              <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-              Discover our wide range of quality Stationery, Printing Supplies, Corporate Giveaways and Sports equipment.
-              </p>
+            
             </div>
 
             {/* Enhanced Category Tabs with Product Counts - Your Preferred Design */}
@@ -379,7 +373,7 @@ export default function Home() {
             <div className="max-w-4xl mx-auto">
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6">Ready to Shop?</h2>
               <p className="text-lg lg:text-xl text-gray-300 mb-8 max-w-2xl mx-auto leading-relaxed">
-                Browse our wide selection of stationery, printing supplies, and sports equipment.
+                Browse our wide selection of Products.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link href="/products">
