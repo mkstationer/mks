@@ -109,7 +109,7 @@ export default function Navbar() {
             {isMenuOpen && (
               <>
                 {/* Backdrop */}
-                <div className="fixed inset-0 bg-black bg-opacity-25 z-40" onClick={() => setIsMenuOpen(false)} />
+                <div className="fixed inset-0 bg-opacity-25 z-40" onClick={() => setIsMenuOpen(false)} />
 
                 {/* Menu Panel */}
                 <div className="absolute right-0 mt-3 w-64 origin-top-right rounded-xl bg-white shadow-xl ring-1 ring-black ring-opacity-5 focus:outline-none z-50 border border-gray-200 overflow-hidden">
