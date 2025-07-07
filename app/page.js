@@ -28,8 +28,8 @@ export default function Home() {
     "CORPORATE GIVEAWAYS",
     "PRINTING AND PHOTOSTAT",
     "Art & Painting",
-    "Ladies Collection",
-    "MK's Chitral Special"
+    "LADIES COLLECTION",
+    "MK'S CHITRAL SPECIAL"
   ]
 
   // Pre-calculate all category descendants for instant filtering
